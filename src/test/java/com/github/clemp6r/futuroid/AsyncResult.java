@@ -1,4 +1,4 @@
-package net.clemp6r.androidfutures;
+package com.github.clemp6r.futuroid;
 
 /**
  * Helper class to wrap a mutable reference.

@@ -1,4 +1,4 @@
-package net.clemp6r.androidfutures;
+package com.github.clemp6r.futuroid;
 
 /**
  * Specialization of {@link com.google.common.util.concurrent.AsyncFunction} that returns {@link AndroidFuture}s.

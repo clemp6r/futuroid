@@ -1,4 +1,4 @@
-package net.clemp6r.androidfutures;
+package com.github.clemp6r.futuroid;
 
 
 import com.google.common.util.concurrent.FutureCallback;

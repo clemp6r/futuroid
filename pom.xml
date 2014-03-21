@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.clemp6r.androidfutures</groupId>
-    <artifactId>android-futures</artifactId>
+    <groupId>com.github.clemp6r.futuroid</groupId>
+    <artifactId>futuroid</artifactId>
     <packaging>jar</packaging>
-    <name>Android Futures</name>
-    <version>0.1.0-SNAPSHOT</version>
+    <name>Futuroid</name>
+    <version>0.1-SNAPSHOT</version>
 
     <dependencies>
         <!-- JUnit 4 (for Robolectric tests) -->
