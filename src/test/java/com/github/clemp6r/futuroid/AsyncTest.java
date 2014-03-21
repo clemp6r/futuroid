@@ -11,6 +11,7 @@ import org.robolectric.annotation.Config;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -29,6 +30,14 @@ public class AsyncTest {
                 return Thread.currentThread();
             }
         });
+    }
+
+    /**
+     * Generic reference holder.
+     * Used to store asynchronous results.
+     */
+    public static class Holder<T> {
+        public T o;
     }
 
     @Test
@@ -100,11 +109,27 @@ public class AsyncTest {
         assertTrue("The callback has not been executed", result.o);
     }
 
-    /**
-     * Generic reference holder.
-     * Used to store asynchronous results.
-     */
-    public static class Holder<T> {
-        public T o;
+    @Test
+    public void shouldMapFutures() throws ExecutionException, InterruptedException {
+        AndroidFuture<String> futureA = Async.submit(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return "A";
+            }
+        });
+
+        AndroidFuture<String> futureAB = futureA.map(new AsyncFunction<String, String>() {
+            @Override
+            public AndroidFuture<String> apply(final String input) throws Exception {
+                return Async.submit(new Callable<String>() {
+                    @Override
+                    public String call() throws Exception {
+                        return input + "B";
+                    }
+                });
+            }
+        });
+
+        assertEquals("AB", futureAB.get());
     }
 }
