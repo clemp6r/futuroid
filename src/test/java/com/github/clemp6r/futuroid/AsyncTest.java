@@ -169,4 +169,10 @@ public class AsyncTest {
             assertEquals(exception, e.getCause());
         }
     }
+
+    @Test
+    public void shouldReturnProvidedObject() throws ExecutionException, InterruptedException {
+        Future<String> future = createFuture("A").willReturn("B");
+        assertEquals("B", future.get());
+    }
 }
