@@ -5,7 +5,29 @@
     <artifactId>futuroid</artifactId>
     <packaging>jar</packaging>
     <name>Futuroid</name>
+    <description>An Android library for making asynchronous APIs.</description>
+    <url>https://github.com/clemp6r/futuroid</url>
     <version>0.1-SNAPSHOT</version>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Clément Plantier</name>
+            <url>https://github.com/clemp6r</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:clemp6r/futuroid.git</connection>
+        <developerConnection>scm:git:git@github.com:clemp6r/futuroid.git</developerConnection>
+        <url>git@github.com:clemp6r/futuroid.git</url>
+    </scm>
 
     <dependencies>
         <!-- JUnit 4 (for Robolectric tests) -->
