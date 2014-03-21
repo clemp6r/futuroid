@@ -1,7 +1,11 @@
 package com.github.clemp6r.futuroid;
 
 import com.google.common.base.Function;
-import com.google.common.util.concurrent.*;
+import com.google.common.util.concurrent.ForwardingListenableFuture;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.SettableFuture;
 
 import java.util.concurrent.Executor;
 
@@ -45,8 +49,36 @@ class AndroidFutureImpl<T> extends ForwardingListenableFuture<T> implements Andr
     }
 
     @Override
-    public <U> AndroidFuture<U> map(AsyncFunction<T, U> function) {
-        return from(Futures.transform(this, function));
+    public <U> AndroidFuture<U> map(final AsyncFunction<T, U> function) {
+        ListenableFuture<T> listenableFuture = toGuavaFuture(this);
+        return from(Futures.transform(listenableFuture, toGuavaAsyncFunction(function)));
+    }
+
+    private static <T, U> com.google.common.util.concurrent.AsyncFunction<T, U> toGuavaAsyncFunction(
+            final AsyncFunction<T, U> function) {
+        return new com.google.common.util.concurrent.AsyncFunction<T, U>() {
+            @Override
+            public ListenableFuture<U> apply(T input) throws Exception {
+                return toGuavaFuture(function.apply(input));
+            }
+        };
+    }
+
+    private static <T> ListenableFuture<T> toGuavaFuture(AndroidFuture<T> androidFuture) {
+        final SettableFuture<T> promise = SettableFuture.create();
+        androidFuture.addCallback(new FutureCallback<T>() {
+            @Override
+            public void onSuccess(T result) {
+                promise.set(result);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                promise.setException(t);
+            }
+        });
+
+        return promise;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.github.clemp6r.futuroid;
 
 
+import com.google.common.base.Function;
 import com.google.common.util.concurrent.FutureCallback;
 
 import org.junit.Test;
@@ -15,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
@@ -109,27 +111,62 @@ public class AsyncTest {
         assertTrue("The callback has not been executed", result.o);
     }
 
-    @Test
-    public void shouldMapFutures() throws ExecutionException, InterruptedException {
-        AndroidFuture<String> futureA = Async.submit(new Callable<String>() {
+    private static <T> AndroidFuture<T> createFuture(final T result) {
+        return Async.submit(new Callable<T>() {
             @Override
-            public String call() throws Exception {
-                return "A";
+            public T call() throws Exception {
+                return result;
             }
         });
+    }
 
+    @Test
+    public void shouldMapFutures() throws ExecutionException, InterruptedException {
+        AndroidFuture<String> futureA = createFuture("A");
         AndroidFuture<String> futureAB = futureA.map(new AsyncFunction<String, String>() {
             @Override
             public AndroidFuture<String> apply(final String input) throws Exception {
-                return Async.submit(new Callable<String>() {
-                    @Override
-                    public String call() throws Exception {
-                        return input + "B";
-                    }
-                });
+                return createFuture(input + "B");
             }
         });
 
-        assertEquals("AB", futureAB.get());
+        String result = futureAB.get();
+        assertEquals("AB", result);
+    }
+
+    @Test
+    public void shouldMapFutureResult() throws ExecutionException, InterruptedException {
+        AndroidFuture<Integer> strLengthFuture = createFuture("ABC").map(new Function<String, Integer>() {
+            @Override
+            public Integer apply(String input) {
+                return input.length();
+            }
+        });
+
+        int strLength = strLengthFuture.get();
+        assertEquals(3, strLength);
+    }
+
+    @Test
+    public void shouldReturnImmediateResult() throws ExecutionException, InterruptedException {
+        AndroidFuture<String> future = Async.immediate("A");
+        assertTrue(future.isDone());
+        assertEquals("A", future.get());
+    }
+
+    @Test
+    public void shouldReturnImmediateFailure() {
+        Exception exception = new Exception("an exception");
+        AndroidFuture<Object> future = Async.immediateFail(exception);
+        assertTrue(future.isDone());
+
+        try {
+            future.get();
+            fail();
+        } catch (InterruptedException e) {
+            fail();
+        } catch (ExecutionException e) {
+            assertEquals(exception, e.getCause());
+        }
     }
 }
