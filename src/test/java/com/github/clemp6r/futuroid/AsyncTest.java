@@ -25,7 +25,7 @@ public class AsyncTest {
      * Returns a simple Future to run on the network executor.
      * The Future will return the Thread in which it has been run.
      */
-    private AndroidFuture<Thread> createNetworkTask() {
+    private Future<Thread> createNetworkTask() {
         return Async.submit(new Callable<Thread>() {
             @Override
             public Thread call() throws Exception {
@@ -51,7 +51,7 @@ public class AsyncTest {
 
     @Test
     public void shouldExecuteUiCallbackOnUiThread() throws ExecutionException, InterruptedException {
-        AndroidFuture<Thread> future = createNetworkTask();
+        Future<Thread> future = createNetworkTask();
 
         final Holder result = new Holder();
 
@@ -79,7 +79,7 @@ public class AsyncTest {
      */
     @Test
     public void shouldExecuteCallback() throws ExecutionException, InterruptedException {
-        AndroidFuture<Thread> future = createNetworkTask();
+        Future<Thread> future = createNetworkTask();
 
         final Holder<Boolean> result = new Holder<Boolean>();
         result.o = false;
@@ -111,7 +111,7 @@ public class AsyncTest {
         assertTrue("The callback has not been executed", result.o);
     }
 
-    private static <T> AndroidFuture<T> createFuture(final T result) {
+    private static <T> Future<T> createFuture(final T result) {
         return Async.submit(new Callable<T>() {
             @Override
             public T call() throws Exception {
@@ -122,10 +122,10 @@ public class AsyncTest {
 
     @Test
     public void shouldMapFutures() throws ExecutionException, InterruptedException {
-        AndroidFuture<String> futureA = createFuture("A");
-        AndroidFuture<String> futureAB = futureA.map(new AsyncFunction<String, String>() {
+        Future<String> futureA = createFuture("A");
+        Future<String> futureAB = futureA.map(new AsyncFunction<String, String>() {
             @Override
-            public AndroidFuture<String> apply(final String input) throws Exception {
+            public Future<String> apply(final String input) throws Exception {
                 return createFuture(input + "B");
             }
         });
@@ -136,7 +136,7 @@ public class AsyncTest {
 
     @Test
     public void shouldMapFutureResult() throws ExecutionException, InterruptedException {
-        AndroidFuture<Integer> strLengthFuture = createFuture("ABC").map(new Function<String, Integer>() {
+        Future<Integer> strLengthFuture = createFuture("ABC").map(new Function<String, Integer>() {
             @Override
             public Integer apply(String input) {
                 return input.length();
@@ -149,7 +149,7 @@ public class AsyncTest {
 
     @Test
     public void shouldReturnImmediateResult() throws ExecutionException, InterruptedException {
-        AndroidFuture<String> future = Async.immediate("A");
+        Future<String> future = Async.immediate("A");
         assertTrue(future.isDone());
         assertEquals("A", future.get());
     }
@@ -157,7 +157,7 @@ public class AsyncTest {
     @Test
     public void shouldReturnImmediateFailure() {
         Exception exception = new Exception("an exception");
-        AndroidFuture<Object> future = Async.immediateFail(exception);
+        Future<Object> future = Async.immediateFail(exception);
         assertTrue(future.isDone());
 
         try {

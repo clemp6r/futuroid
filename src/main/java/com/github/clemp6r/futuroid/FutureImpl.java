@@ -10,9 +10,9 @@ import com.google.common.util.concurrent.SettableFuture;
 import java.util.concurrent.Executor;
 
 /**
-* Custom Future type that allows adding callbacks to be executed on the UI thread.
-*/
-class AndroidFutureImpl<T> extends ForwardingListenableFuture<T> implements AndroidFuture<T> {
+ * Custom Future type that allows adding callbacks to be executed on the UI thread.
+ */
+class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
 
     private final ListenableFuture<T> delegate;
 
@@ -21,12 +21,12 @@ class AndroidFutureImpl<T> extends ForwardingListenableFuture<T> implements Andr
      */
     private static final Executor main = new MainThreadExecutor();
 
-    private AndroidFutureImpl(ListenableFuture<T> delegate) {
+    private FutureImpl(ListenableFuture<T> delegate) {
         this.delegate = delegate;
     }
 
-    static <T> AndroidFuture<T> from(ListenableFuture<T> listenableFuture) {
-        return new AndroidFutureImpl<T>(listenableFuture);
+    static <T> Future<T> from(ListenableFuture<T> listenableFuture) {
+        return new FutureImpl<T>(listenableFuture);
     }
 
     @Override
@@ -49,7 +49,7 @@ class AndroidFutureImpl<T> extends ForwardingListenableFuture<T> implements Andr
     }
 
     @Override
-    public <U> AndroidFuture<U> map(final AsyncFunction<T, U> function) {
+    public <U> Future<U> map(final AsyncFunction<T, U> function) {
         ListenableFuture<T> listenableFuture = toGuavaFuture(this);
         return from(Futures.transform(listenableFuture, toGuavaAsyncFunction(function)));
     }
@@ -64,7 +64,7 @@ class AndroidFutureImpl<T> extends ForwardingListenableFuture<T> implements Andr
         };
     }
 
-    private static <T> ListenableFuture<T> toGuavaFuture(AndroidFuture<T> androidFuture) {
+    private static <T> ListenableFuture<T> toGuavaFuture(Future<T> androidFuture) {
         final SettableFuture<T> promise = SettableFuture.create();
         androidFuture.addCallback(new FutureCallback<T>() {
             @Override
@@ -82,12 +82,12 @@ class AndroidFutureImpl<T> extends ForwardingListenableFuture<T> implements Andr
     }
 
     @Override
-    public <U> AndroidFuture<U> map(Function<T, U> function) {
+    public <U> Future<U> map(Function<T, U> function) {
         return from(Futures.transform(this, function));
     }
 
     @Override
-    public <U> AndroidFuture<U> willReturn(final U object) {
+    public <U> Future<U> willReturn(final U object) {
         return map(new Function<T, U>() {
             @Override
             public U apply(T input) {
@@ -95,5 +95,4 @@ class AndroidFutureImpl<T> extends ForwardingListenableFuture<T> implements Andr
             }
         });
     }
-
 }
