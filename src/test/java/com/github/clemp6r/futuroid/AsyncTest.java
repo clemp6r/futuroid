@@ -42,7 +42,7 @@ public class AsyncTest {
     public void shouldExecuteUiCallbackOnUiThread() throws ExecutionException, InterruptedException {
         AndroidFuture<Thread> future = createNetworkTask();
 
-        final AsyncResult result = new AsyncResult();
+        final Holder result = new Holder();
 
         // wait until it is finished
         future.get();
@@ -70,7 +70,7 @@ public class AsyncTest {
     public void shouldExecuteCallback() throws ExecutionException, InterruptedException {
         AndroidFuture<Thread> future = createNetworkTask();
 
-        final AsyncResult<Boolean> result = new AsyncResult<Boolean>();
+        final Holder<Boolean> result = new Holder<Boolean>();
         result.o = false;
 
         synchronized (result) {
@@ -98,5 +98,13 @@ public class AsyncTest {
 
         // check that the callback has been executed
         assertTrue("The callback has not been executed", result.o);
+    }
+
+    /**
+     * Generic reference holder.
+     * Used to store asynchronous results.
+     */
+    public static class Holder<T> {
+        public T o;
     }
 }
