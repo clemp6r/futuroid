@@ -29,7 +29,7 @@ public class AsyncTest {
     private Future<Thread> createNetworkTask() {
         return Async.submit(new Callable<Thread>() {
             @Override
-            public Thread call() throws Exception {
+            public Thread call() {
                 return Thread.currentThread();
             }
         });
