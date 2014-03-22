@@ -2,7 +2,6 @@ package com.github.clemp6r.futuroid;
 
 import com.google.common.base.Function;
 import com.google.common.util.concurrent.ForwardingListenableFuture;
-import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
@@ -41,11 +40,11 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
 
     @Override
     public void addCallback(FutureCallback<T> callback) {
-        Futures.addCallback(delegate, callback);
+        Futures.addCallback(delegate, toGuavaCallback(callback));
     }
 
     private void addCallback(FutureCallback<T> callback, Executor executor) {
-        Futures.addCallback(delegate, callback, executor);
+        Futures.addCallback(delegate, toGuavaCallback(callback), executor);
     }
 
     @Override
@@ -94,5 +93,65 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
                 return object;
             }
         });
+    }
+
+    private com.google.common.util.concurrent.FutureCallback<T> toGuavaCallback(final FutureCallback<T> callback) {
+        return new com.google.common.util.concurrent.FutureCallback<T>() {
+            @Override
+            public void onSuccess(T result) {
+                callback.onSuccess(result);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                callback.onFailure(t);
+            }
+        };
+    }
+
+    private FutureCallback<T> toFutureCallback(final SuccessCallback<T> callback) {
+        return new FutureCallback<T>() {
+            @Override
+            public void onSuccess(T result) {
+                callback.onSuccess(result);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        };
+    }
+
+    private FutureCallback<T> toFutureCallback(final FailureCallback callback) {
+        return new FutureCallback<T>() {
+            @Override
+            public void onSuccess(T result) {
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                callback.onFailure(t);
+            }
+        };
+    }
+
+    @Override
+    public void onSuccess(final SuccessCallback<T> callback) {
+        addCallback(toFutureCallback(callback));
+    }
+
+    @Override
+    public void onUiSuccess(SuccessCallback<T> callback) {
+        addUiCallback(toFutureCallback(callback));
+    }
+
+    @Override
+    public void onFailure(FailureCallback callback) {
+        addCallback(toFutureCallback(callback));
+    }
+
+    @Override
+    public void onUiFailure(FailureCallback callback) {
+        addUiCallback(toFutureCallback(callback));
     }
 }

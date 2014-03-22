@@ -2,7 +2,6 @@ package com.github.clemp6r.futuroid;
 
 
 import com.google.common.base.Function;
-import com.google.common.util.concurrent.FutureCallback;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
