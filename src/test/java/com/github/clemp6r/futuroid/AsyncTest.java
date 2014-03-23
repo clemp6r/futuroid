@@ -187,14 +187,14 @@ public class AsyncTest {
         final Holder<String> resultHolder = new Holder<String>();
         final Holder<Throwable> failureHolder = new Holder<Throwable>();
 
-        future.onSuccess(new SuccessCallback<String>() {
+        future.addSuccessCallback(new SuccessCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 resultHolder.o = result;
             }
         });
 
-        future.onFailure(new FailureCallback() {
+        future.addFailureCallback(new FailureCallback() {
             @Override
             public void onFailure(Throwable t) {
                 failureHolder.o = t;
@@ -212,14 +212,14 @@ public class AsyncTest {
         final Holder<String> resultHolder = new Holder<String>();
         final Holder<Throwable> failureHolder = new Holder<Throwable>();
 
-        future.onSuccess(new SuccessCallback<String>() {
+        future.addSuccessCallback(new SuccessCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 resultHolder.o = result;
             }
         });
 
-        future.onFailure(new FailureCallback() {
+        future.addFailureCallback(new FailureCallback() {
             @Override
             public void onFailure(Throwable t) {
                 failureHolder.o = t;
@@ -237,7 +237,7 @@ public class AsyncTest {
 
         final Holder<Thread> threadHolder = new Holder<Thread>();
 
-        future.onUiSuccess(new SuccessCallback<String>() {
+        future.addSuccessUiCallback(new SuccessCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 threadHolder.o = Thread.currentThread();
@@ -254,7 +254,7 @@ public class AsyncTest {
 
         final Holder<Thread> threadHolder = new Holder<Thread>();
 
-        future.onUiFailure(new FailureCallback() {
+        future.addFailureUiCallback(new FailureCallback() {
             @Override
             public void onFailure(Throwable t) {
                 threadHolder.o = Thread.currentThread();

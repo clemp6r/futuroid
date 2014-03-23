@@ -27,25 +27,25 @@ public interface Future<T> extends java.util.concurrent.Future<T> {
      * Registers a success callback.
      * It will be called only if the asynchronous computation finishes without failure.
      */
-    void onSuccess(SuccessCallback<T> callback);
+    void addSuccessCallback(SuccessCallback<T> callback);
 
     /**
      * Registers a success callback that will be run on the UI/main thread.
      * It will be called only if the asynchronous computation finishes without failure.
      */
-    void onUiSuccess(SuccessCallback<T> callback);
+    void addSuccessUiCallback(SuccessCallback<T> callback);
 
     /**
      * Registers a failure callback.
      * It will be called only if the asynchronous computation fails.
      */
-    void onFailure(FailureCallback callback);
+    void addFailureCallback(FailureCallback callback);
 
     /**
      * Registers a failure callback that will be run on the UI/main thread.
      * It will be called only if the asynchronous computation fails.
      */
-    void onUiFailure(FailureCallback callback);
+    void addFailureUiCallback(FailureCallback callback);
 
     /**
      * Returns a new Future whose result is the product of applying the given Function to this Future.

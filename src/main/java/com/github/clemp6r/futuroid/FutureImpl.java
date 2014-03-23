@@ -136,22 +136,22 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
     }
 
     @Override
-    public void onSuccess(final SuccessCallback<T> callback) {
+    public void addSuccessCallback(final SuccessCallback<T> callback) {
         addCallback(toFutureCallback(callback));
     }
 
     @Override
-    public void onUiSuccess(SuccessCallback<T> callback) {
+    public void addSuccessUiCallback(SuccessCallback<T> callback) {
         addUiCallback(toFutureCallback(callback));
     }
 
     @Override
-    public void onFailure(FailureCallback callback) {
+    public void addFailureCallback(FailureCallback callback) {
         addCallback(toFutureCallback(callback));
     }
 
     @Override
-    public void onUiFailure(FailureCallback callback) {
+    public void addFailureUiCallback(FailureCallback callback) {
         addUiCallback(toFutureCallback(callback));
     }
 }
