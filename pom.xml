@@ -7,7 +7,7 @@
     <name>Futuroid</name>
     <description>An Android library for making asynchronous APIs.</description>
     <url>https://github.com/clemp6r/futuroid</url>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
 
     <licenses>
         <license>
@@ -154,7 +154,7 @@
                     <configuration>
                         <mavenExecutorId>forked-path</mavenExecutorId>
                         <useReleaseProfile>false</useReleaseProfile>
-                        <arguments>${arguments} -Psonatype-oss-release</arguments>
+                        <arguments>-Psonatype-oss-release</arguments>
                     </configuration>
                 </plugin>
             </plugins>
