@@ -75,8 +75,13 @@ Gradle-based configuration:
     dependencies {
         compile 'com.github.clemp6r.futuroid:futuroid:0.1'
     }
+    
+Links
+-----------------
+[API documentation][3]
 
 [![Build Status](https://travis-ci.org/clemp6r/futuroid.svg?branch=master)](https://travis-ci.org/clemp6r/futuroid)
 
   [1]: http://developer.android.com/reference/android/os/AsyncTask.html
   [2]: http://search.maven.org/#search%7Cga%7C1%7Cg:%22com.github.clemp6r.futuroid%22
+  [3]: http://clemp6r.github.io/futuroid/apidocs/
