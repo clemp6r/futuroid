@@ -71,13 +71,13 @@ Maven-based configuration:
     <dependency>
         <groupId>com.github.clemp6r.futuroid</groupId>
         <artifactId>futuroid</artifactId>
-        <version>0.1</version>
+        <version>0.1.0</version>
     </dependency>
 
 Gradle-based configuration:
 
     dependencies {
-        compile 'com.github.clemp6r.futuroid:futuroid:0.1'
+        compile 'com.github.clemp6r.futuroid:futuroid:0.1.0'
     }
     
 Links
