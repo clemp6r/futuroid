@@ -2,7 +2,6 @@ Futuroid - Android library for asynchronous tasks
 =================================================
 Futuroid is an Android library that allows running asynchronous tasks and attaching callbacks thanks to a convenient syntax. It offers an alternative to the Android [AsyncTask][1] class.
 
-[![Build Status](https://travis-ci.org/clemp6r/futuroid.svg?branch=master)](https://travis-ci.org/clemp6r/futuroid)
 
 Features
 --------
