@@ -11,12 +11,22 @@ import java.util.concurrent.Executor;
  */
 class MainThreadExecutor implements Executor {
 
+    /** Android application main looper */
+    private final Looper mainLooper = Looper.getMainLooper();
+
+    /** Android application main thread */
+    private final Thread mainThread = mainLooper.getThread();
+
     /** Main thread handler */
-    private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+    private final Handler mainThreadHandler = new Handler(mainLooper);
 
     @Override
     public void execute(Runnable command) {
-        mainThreadHandler.post(command);
+        if (Thread.currentThread() == mainThread) {
+            command.run();
+        } else {
+            mainThreadHandler.post(command);
+        }
     }
 
     @Override

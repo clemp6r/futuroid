@@ -59,10 +59,6 @@ public class AsyncTest {
             @Override
             public void onSuccess(Void object) {
                 result.o = Thread.currentThread();
-
-                synchronized (AsyncTest.this) {
-                    notify();
-                }
             }
 
             @Override
