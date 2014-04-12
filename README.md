@@ -11,8 +11,7 @@ Features
 - Provides a default ExecutorService (fixed thread pool with 5 threads)
 - Each task can be run on the default ExecutorService or on a custom one
 - Allows task chaining (sample code to be added...)
-- Functional language friendly
- 
+
 
 Sample code
 -----------
