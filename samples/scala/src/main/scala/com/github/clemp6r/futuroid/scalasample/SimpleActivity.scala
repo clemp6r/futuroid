@@ -4,7 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.widget.TextView
 
-class SimpleActivity extends Activity with FuturoidImplicits {
+class SimpleActivity extends Activity with Futuroid {
 
   lazy val textView = findViewById(R.id.scala_text_view).asInstanceOf[TextView]
 

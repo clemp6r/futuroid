@@ -1,12 +1,7 @@
 package com.github.clemp6r.futuroid.scalasample
 
-import com.github.clemp6r.futuroid.Async
-import java.util.concurrent.Callable
-
-object MyAsyncService {
-  def computePi = Async.submit(new Callable[Double] {
-    override def call() = computePiSync
-  })
+object MyAsyncService extends Futuroid {
+  def computePi = async { computePiSync }
 
   private def computePiSync = {
     Thread.sleep(3000)
