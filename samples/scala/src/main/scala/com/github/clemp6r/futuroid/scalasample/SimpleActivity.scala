@@ -1,7 +1,6 @@
-package jp.leafytree.android.simple
+package com.github.clemp6r.futuroid.scalasample
 
 import android.app.Activity
-import android.widget.TextView
 import android.os.Bundle
 
 class SimpleActivity extends Activity {

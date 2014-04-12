@@ -44,4 +44,5 @@ android {
 
 dependencies {
     compile 'org.scala-lang:scala-library:2.10.4'
+    compile 'com.github.clemp6r.futuroid:futuroid:0.1.1'
 }
