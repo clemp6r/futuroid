@@ -3,3 +3,6 @@
 -dontpreverify
 -dontwarn scala.**
 -keep class !scala.collection.** { *; }
+
+-keep class com.google.**
+-dontwarn com.google.**
