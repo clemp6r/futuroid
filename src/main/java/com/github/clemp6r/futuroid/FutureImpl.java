@@ -1,10 +1,7 @@
 package com.github.clemp6r.futuroid;
 
 import com.google.common.base.Function;
-import com.google.common.util.concurrent.ForwardingListenableFuture;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.SettableFuture;
+import com.google.common.util.concurrent.*;
 
 import java.util.concurrent.Executor;
 
@@ -13,6 +10,9 @@ import java.util.concurrent.Executor;
  */
 class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
 
+    /**
+     * The wrapped Guava ListenableFuture.
+     */
     private final ListenableFuture<T> delegate;
 
     /**
@@ -39,11 +39,7 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
     }
 
     @Override
-    public void addCallback(FutureCallback<T> callback) {
-        Futures.addCallback(delegate, toGuavaCallback(callback));
-    }
-
-    private void addCallback(FutureCallback<T> callback, Executor executor) {
+    public void addCallback(FutureCallback<T> callback, Executor executor) {
         Futures.addCallback(delegate, toGuavaCallback(callback), executor);
     }
 
@@ -75,7 +71,7 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
             public void onFailure(Throwable t) {
                 promise.setException(t);
             }
-        });
+        }, MoreExecutors.sameThreadExecutor());
 
         return promise;
     }
@@ -95,7 +91,7 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
         });
     }
 
-    private com.google.common.util.concurrent.FutureCallback<T> toGuavaCallback(final FutureCallback<T> callback) {
+    private static <T> com.google.common.util.concurrent.FutureCallback<T> toGuavaCallback(final FutureCallback<T> callback) {
         return new com.google.common.util.concurrent.FutureCallback<T>() {
             @Override
             public void onSuccess(T result) {
@@ -136,18 +132,8 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
     }
 
     @Override
-    public void addSuccessCallback(final SuccessCallback<T> callback) {
-        addCallback(toFutureCallback(callback));
-    }
-
-    @Override
     public void addSuccessUiCallback(SuccessCallback<T> callback) {
         addUiCallback(toFutureCallback(callback));
-    }
-
-    @Override
-    public void addFailureCallback(FailureCallback callback) {
-        addCallback(toFutureCallback(callback));
     }
 
     @Override

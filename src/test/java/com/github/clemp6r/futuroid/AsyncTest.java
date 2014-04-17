@@ -71,45 +71,6 @@ public class AsyncTest {
         assertSame(Thread.currentThread(), result.o);
     }
 
-    /**
-     * Checks a network task callback is executed.
-     */
-    @Test
-    public void shouldExecuteCallback() throws ExecutionException, InterruptedException {
-        Future<Thread> future = createNetworkTask();
-
-        final Holder<Boolean> result = new Holder<Boolean>();
-
-        synchronized (result) {
-            future.addCallback(new FutureCallback<Thread>() {
-                @Override
-                public void onSuccess(Thread object) {
-                    result.o = true;
-
-                    synchronized (result) {
-                        result.notify();
-                    }
-                }
-                @Override
-                public void onFailure(Throwable t) {
-                    result.o = false;
-                    t.printStackTrace();
-
-                    synchronized (result) {
-                        result.notify();
-                    }
-                }
-            });
-
-            if (result == null)  {
-                result.wait(10000);
-            }
-        }
-
-        // check that the callback has been executed
-        assertTrue("The callback has not been executed", result.o);
-    }
-
     private static <T> Future<T> createFuture(final T result) {
         return Async.submit(new Callable<T>() {
             @Override
@@ -174,57 +135,6 @@ public class AsyncTest {
     public void shouldReturnProvidedObject() throws ExecutionException, InterruptedException {
         Future<String> future = createFuture("A").willReturn("B");
         assertEquals("B", future.get());
-    }
-
-    @Test
-    public void shouldCallSuccessCallbackGivenActionSucceed() throws ExecutionException, InterruptedException {
-        Future<String> future = Async.immediate("A");
-
-        final Holder<String> resultHolder = new Holder<String>();
-        final Holder<Throwable> failureHolder = new Holder<Throwable>();
-
-        future.addSuccessCallback(new SuccessCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                resultHolder.o = result;
-            }
-        });
-
-        future.addFailureCallback(new FailureCallback() {
-            @Override
-            public void onFailure(Throwable t) {
-                failureHolder.o = t;
-            }
-        });
-
-        assertEquals("A", resultHolder.o);
-        assertNull(failureHolder.o);
-    }
-
-    @Test
-    public void shouldCallFailureCallbackGivenActionFailure() throws ExecutionException, InterruptedException {
-        Future<String> future = Async.immediateFail(new Exception(("test")));
-
-        final Holder<String> resultHolder = new Holder<String>();
-        final Holder<Throwable> failureHolder = new Holder<Throwable>();
-
-        future.addSuccessCallback(new SuccessCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                resultHolder.o = result;
-            }
-        });
-
-        future.addFailureCallback(new FailureCallback() {
-            @Override
-            public void onFailure(Throwable t) {
-                failureHolder.o = t;
-            }
-        });
-
-        assertNull(resultHolder.o);
-        assertNotNull(failureHolder.o);
-        assertEquals("test", failureHolder.o.getMessage());
     }
 
     @Test
