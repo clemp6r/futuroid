@@ -70,7 +70,7 @@
 <p>Client code:</p>
 
 <pre><code>// download an image from a URL
-imageService.downloadImage(url).addUiCallback(new FutureCallback&lt;Bitmap&gt;() {
+imageService.downloadImage(url).addCallback(new FutureCallback&lt;Bitmap&gt;() {
     @Override
     public void onSuccess(Bitmap bitmap) {
         // display the image
@@ -100,14 +100,14 @@ The public API is not stable and may change without notice until version 1.0.0 i
 <pre><code>&lt;dependency&gt;
     &lt;groupId&gt;com.github.clemp6r.futuroid&lt;/groupId&gt;
     &lt;artifactId&gt;futuroid&lt;/artifactId&gt;
-    &lt;version&gt;0.1.1&lt;/version&gt;
+    &lt;version&gt;0.2.0&lt;/version&gt;
 &lt;/dependency&gt;
 </code></pre>
 
 <p>Gradle-based configuration:</p>
 
 <pre><code>dependencies {
-    compile 'com.github.clemp6r.futuroid:futuroid:0.1.1'
+    compile 'com.github.clemp6r.futuroid:futuroid:0.2.0'
 }
 </code></pre>
 
