@@ -40,7 +40,7 @@ Image download asynchronous service:
 Client code:
 
     // download an image from a URL
-    imageService.downloadImage(url).addUiCallback(new FutureCallback<Bitmap>() {
+    imageService.downloadImage(url).addCallback(new FutureCallback<Bitmap>() {
         @Override
         public void onSuccess(Bitmap bitmap) {
             // display the image
