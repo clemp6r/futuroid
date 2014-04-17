@@ -51,11 +51,11 @@ public class AsyncTest {
     }
 
     @Test
-    public void shouldExecuteUiCallbackOnUiThread() throws ExecutionException, InterruptedException {
+    public void shouldExecuteCallbackOnUiThread() throws ExecutionException, InterruptedException {
         Future<Void> future = Async.immediate(null);
 
         final Holder result = new Holder();
-        future.addUiCallback(new FutureCallback<Void>() {
+        future.addCallback(new FutureCallback<Void>() {
             @Override
             public void onSuccess(Void object) {
                 result.o = Thread.currentThread();
@@ -138,12 +138,12 @@ public class AsyncTest {
     }
 
     @Test
-    public void shouldRunUiSuccessCallbackOnMainThread() {
+    public void shouldRunSuccessCallbackOnMainThread() {
         Future<String> future = Async.immediate("A");
 
         final Holder<Thread> threadHolder = new Holder<Thread>();
 
-        future.addSuccessUiCallback(new SuccessCallback<String>() {
+        future.addSuccessCallback(new SuccessCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 threadHolder.o = Thread.currentThread();
@@ -155,12 +155,12 @@ public class AsyncTest {
     }
 
     @Test
-    public void shouldRunUiFailureCallbackOnMainThread() {
+    public void shouldRunFailureCallbackOnMainThread() {
         Future<String> future = Async.immediateFail(new Exception("test"));
 
         final Holder<Thread> threadHolder = new Holder<Thread>();
 
-        future.addFailureUiCallback(new FailureCallback() {
+        future.addFailureCallback(new FailureCallback() {
             @Override
             public void onFailure(Throwable t) {
                 threadHolder.o = Thread.currentThread();

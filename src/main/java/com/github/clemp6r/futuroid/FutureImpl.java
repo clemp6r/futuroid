@@ -34,7 +34,7 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
     }
 
     @Override
-    public void addUiCallback(FutureCallback<T> callback) {
+    public void addCallback(FutureCallback<T> callback) {
         addCallback(callback, main);
     }
 
@@ -132,12 +132,12 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
     }
 
     @Override
-    public void addSuccessUiCallback(SuccessCallback<T> callback) {
-        addUiCallback(toFutureCallback(callback));
+    public void addSuccessCallback(SuccessCallback<T> callback) {
+        addCallback(toFutureCallback(callback));
     }
 
     @Override
-    public void addFailureUiCallback(FailureCallback callback) {
-        addUiCallback(toFutureCallback(callback));
+    public void addFailureCallback(FailureCallback callback) {
+        addCallback(toFutureCallback(callback));
     }
 }

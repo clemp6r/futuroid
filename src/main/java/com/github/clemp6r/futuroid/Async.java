@@ -25,12 +25,12 @@ import java.util.concurrent.Executors;
  * </pre>
  * Example usage of such service in UI client code:
  * <pre> {@code
- * findUser(id).addUiCallback(new FutureCallback<User>() {
- *     public void addSuccessCallback(User user) {
+ * findUser(id).addCallback(new FutureCallback<User>() {
+ *     public void onSuccess(User user) {
  *         displayUserInfo(user);
  *     }
  *
- *     public void addFailureCallback(Throwable t) {
+ *     public void onFailure(Throwable t) {
  *         showErrorDialog(t);
  *     }
  * });

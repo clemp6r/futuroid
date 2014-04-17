@@ -17,26 +17,26 @@ import java.util.concurrent.Executor;
 public interface Future<T> extends java.util.concurrent.Future<T> {
 
     /**
-     * Registers a callback that will be run on the given executor.
-     */
-    void addCallback(FutureCallback<T> callback, Executor executor);
-
-    /**
-     * Registers a callback that will be run on the UI/main thread.
-     */
-    void addUiCallback(FutureCallback<T> callback);
-
-    /**
      * Registers a success callback that will be run on the UI/main thread.
      * It will be called only if the asynchronous computation finishes without failure.
      */
-    void addSuccessUiCallback(SuccessCallback<T> callback);
+    void addSuccessCallback(SuccessCallback<T> callback);
 
     /**
      * Registers a failure callback that will be run on the UI/main thread.
      * It will be called only if the asynchronous computation fails.
      */
-    void addFailureUiCallback(FailureCallback callback);
+    void addFailureCallback(FailureCallback callback);
+
+    /**
+     * Registers a callback that will be run on the UI/main thread.
+     */
+    void addCallback(FutureCallback<T> callback);
+
+    /**
+     * Registers a callback that will be run on the given executor.
+     */
+    void addCallback(FutureCallback<T> callback, Executor executor);
 
     /**
      * Returns a new Future whose result is the product of applying the given Function to this Future.
