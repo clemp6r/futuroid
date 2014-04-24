@@ -34,17 +34,17 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
     }
 
     @Override
-    public void addCallback(FutureCallback<T> callback) {
+    public void addCallback(FutureCallback<? super T> callback) {
         addCallback(callback, main);
     }
 
     @Override
-    public void addCallback(FutureCallback<T> callback, Executor executor) {
+    public void addCallback(FutureCallback<? super T> callback, Executor executor) {
         Futures.addCallback(delegate, toGuavaCallback(callback), executor);
     }
 
     @Override
-    public <U> Future<U> map(final AsyncFunction<T, U> function) {
+    public <U> Future<U> map(final AsyncFunction<? super T, U> function) {
         ListenableFuture<T> listenableFuture = toGuavaFuture(this);
         return from(Futures.transform(listenableFuture, toGuavaAsyncFunction(function)));
     }
@@ -77,7 +77,7 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
     }
 
     @Override
-    public <U> Future<U> map(Function<T, U> function) {
+    public <U> Future<U> map(Function<? super T, U> function) {
         return from(Futures.transform(this, function));
     }
 
@@ -105,7 +105,7 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
         };
     }
 
-    private FutureCallback<T> toFutureCallback(final SuccessCallback<T> callback) {
+    private FutureCallback<T> toFutureCallback(final SuccessCallback<? super T> callback) {
         return new FutureCallback<T>() {
             @Override
             public void onSuccess(T result) {
@@ -132,7 +132,7 @@ class FutureImpl<T> extends ForwardingListenableFuture<T> implements Future<T> {
     }
 
     @Override
-    public void addSuccessCallback(SuccessCallback<T> callback) {
+    public void addSuccessCallback(SuccessCallback<? super T> callback) {
         addCallback(toFutureCallback(callback));
     }
 
