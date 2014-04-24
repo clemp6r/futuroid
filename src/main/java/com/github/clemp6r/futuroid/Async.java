@@ -1,10 +1,15 @@
 package com.github.clemp6r.futuroid;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -84,5 +89,50 @@ public class Async {
      */
     public static <T> Future<T> immediateFail(Throwable t) {
         return FutureImpl.from(Futures.<T>immediateFailedFuture(t));
+    }
+
+    /**
+     * Returns a future holding the results of all provided futures.
+     * Results are returned in the same order as the futures.
+     */
+    public static Future<Object[]> all(Future... futures) {
+        Future<List<Object>> all = all(Arrays.asList(futures));
+
+        return all.map(new Function<List<Object>, Object[]>() {
+            @Override
+            public Object[] apply(List<Object> input) {
+                return Iterables.toArray(input, Object.class);
+            }
+        });
+    }
+
+    /**
+     * Returns a future holding the results of all provided futures (list-based version).
+     * Results are returned in the same order as the futures.
+     */
+    private static Future<List<Object>> all(List<Future> futures) {
+        if (futures.isEmpty()) {
+            List<Object> list = new LinkedList<Object>();
+            return immediate(list);
+        }
+
+        //noinspection unchecked
+        final Future<Object> head = futures.get(0);
+        final List<Future> tail = futures.subList(1, futures.size());
+
+        final Future<List<Object>> allTail = all(tail);
+
+        return head.map(new AsyncFunction<Object, List<Object>>() {
+            @Override
+            public Future<List<Object>> apply(final Object headResult) {
+                return allTail.map(new Function<List<Object>, List<Object>>() {
+                    @Override
+                    public List<Object> apply(List<Object> tailResult) {
+                        tailResult.add(0, headResult);
+                        return tailResult;
+                    }
+                });
+            }
+        });
     }
 }

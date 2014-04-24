@@ -170,4 +170,17 @@ public class AsyncTest {
         assertNotNull("The callback has not been run", threadHolder.o);
         assertEquals(Thread.currentThread(), threadHolder.o);
     }
+
+    @Test
+    public void shouldMergeTwoFutures() throws ExecutionException, InterruptedException {
+        Future<String> futureA = createFuture("A");
+        Future<String> futureB = createFuture("B");
+
+        Future<Object[]> all = Async.all(futureA, futureB);
+        Object[] objects = all.get();
+
+        assertEquals(2, objects.length);
+        assertEquals("A", objects[0]);
+        assertEquals("B", objects[1]);
+    }
 }
