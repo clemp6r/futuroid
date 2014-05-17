@@ -53,11 +53,6 @@ Client code:
         }
     });
 
-Current status
---------------
-
-Futuroid is in its early stage of development and should not be used in production code yet. 
-The public API is not stable and may change without notice until version 1.0.0 is released.
 
 Adding Futuroid to your project
 -------------------------------
@@ -69,13 +64,13 @@ Maven-based configuration:
     <dependency>
         <groupId>com.github.clemp6r.futuroid</groupId>
         <artifactId>futuroid</artifactId>
-        <version>0.2.0</version>
+        <version>0.3.0</version>
     </dependency>
 
 Gradle-based configuration:
 
     dependencies {
-        compile 'com.github.clemp6r.futuroid:futuroid:0.2.0'
+        compile 'com.github.clemp6r.futuroid:futuroid:0.3.0'
     }
     
 Links
