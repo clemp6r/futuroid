@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -46,9 +47,16 @@ public class Async {
     /**
      * Default executor. Uses a fixed thread pool of 5 threads.
      */
-    private static final ListeningExecutorService defaultExecutor = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(5));
+    private static ListeningExecutorService defaultExecutor = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(5));
 
     private Async() {
+    }
+
+    /**
+     * Replaces the default executor service by the given one.
+     */
+    public static void setDefaultExecutorService(ExecutorService executor) {
+        defaultExecutor = MoreExecutors.listeningDecorator(executor);
     }
 
     /**
