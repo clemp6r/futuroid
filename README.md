@@ -26,7 +26,7 @@ Image download asynchronous service:
         public Future<Bitmap> downloadImage(String url) {
             return Async.submit(new Callable<Bitmap>() {
                 @Override
-                public Thread call() {
+                public Bitmap call() {
                     Bitmap bitmap;
                     
                     // HTTP request goes here...
