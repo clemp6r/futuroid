@@ -1,0 +1,5 @@
+Build the release package and deploy to sonatype staging area:
+  mvn clean deploy -Psonatype-oss-release
+
+Release:
+  mvn nexus-staging:release
