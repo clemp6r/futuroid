@@ -8,9 +8,9 @@ Features
 
 - Future-based API (similar to Guava's ListenableFutures, Scala/Akka Futures, Javascript promises...)
 - Allows registering callbacks to be run on the Android UI/main thread
-- Provides a default ExecutorService (fixed thread pool with 5 threads)
+- Provides a default ExecutorService (fixed thread pool with 5 threads) that can be replaced by a custom one
 - Each task can be run on the default ExecutorService or on a custom one
-- Allows task chaining (sample code to be added...)
+- Allows task chaining (monad-style)
 
 
 Sample code
@@ -64,13 +64,13 @@ Maven-based configuration:
     <dependency>
         <groupId>com.github.clemp6r.futuroid</groupId>
         <artifactId>futuroid</artifactId>
-        <version>0.3.0</version>
+        <version>1.0.0</version>
     </dependency>
 
 Gradle-based configuration:
 
     dependencies {
-        compile 'com.github.clemp6r.futuroid:futuroid:0.3.0'
+        compile 'com.github.clemp6r.futuroid:futuroid:1.0.0'
     }
     
 Links
