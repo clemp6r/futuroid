@@ -17,7 +17,7 @@ Sample code
 -----------
 
 Image download asynchronous service:
-
+```java
     public class DownloadService {
         
         /**
@@ -36,9 +36,9 @@ Image download asynchronous service:
             });
         }
     }
-
+```
 Client code:
-
+```java
     // download an image from a URL
     imageService.downloadImage(url).addCallback(new FutureCallback<Bitmap>() {
         @Override
@@ -52,7 +52,7 @@ Client code:
             Log.e(TAG, "Unable to download image", t);
         }
     });
-
+```
 
 Adding Futuroid to your project
 -------------------------------
@@ -60,19 +60,19 @@ Adding Futuroid to your project
 Futuroid is available on the [Maven Central Repository][2].
 
 Maven-based configuration:
-
+```xml
     <dependency>
         <groupId>com.github.clemp6r.futuroid</groupId>
         <artifactId>futuroid</artifactId>
         <version>1.0.0</version>
     </dependency>
-
+```
 Gradle-based configuration:
-
+```groovy
     dependencies {
         compile 'com.github.clemp6r.futuroid:futuroid:1.0.0'
     }
-    
+```    
 Links
 -----------------
 
